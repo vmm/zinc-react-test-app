@@ -16,11 +16,11 @@ class ZincWrapper extends Component {
     this.handlePostRouteMessageChange = this.handlePostRouteMessageChange.bind(this);
 
     this.state = {
-      postData: "",
-      postNavigateToData: "",
-      postConversationData: "",
-      incomingData: "",
-      incomingNotification: ""
+      postData: {},
+      postNavigateToData: {},
+      postConversationData: {},
+      incomingData: {},
+      incomingNotification: { }
     }
   }
 
@@ -56,7 +56,7 @@ class ZincWrapper extends Component {
   }
 
  getAuthToken() {
-    return "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ2ZWxpQHRhcGZvby5pbyIsImp0aSI6IjREMk80WWFBWmh5ZnVqSFQiLCJpYXQiOjE2NTMwNjk2MjAsImV4cCI6MTY1NDI3OTIyMCwiaXNzIjoiY29tLmNvdGFwLmFwaSIsImF1ZCI6ImNvbS5jb3RhcC5hcGkudGFsa2VyIiwiY29tLnppbmMtYXBwLnBheWxvYWQiOnsidGFsa2VyIjp7ImZpcnN0X25hbWUiOiLmr4_kuKrkurrpg73mnInku5bnmoTkvZzmiJjnrZbnlaUiLCJsYXN0X25hbWUiOiJGSVJTVCDwn5ibIn19fQ.mI5-Ku5aEW2m2zfcFOvDRE9U4Pkpz_Gqe9p3JE8Aoa0";
+    return "";
   }
 
   onNewZincMessage(payload) {
@@ -90,6 +90,21 @@ class ZincWrapper extends Component {
     console.log(payload);
   }
 
+  onZincAuthenticationReady(payload) {
+    console.log('PARENT CALLBACK -- onZincAuthenticationReady');
+    console.log(payload);
+  }
+
+  onZincApplicationReady(payload) {
+    console.log('PARENT CALLBACK -- onZincApplicationReady');
+    console.log(payload);
+  }
+
+  onZincApplicationStarted(payload) {
+    console.log('PARENT CALLBACK -- onZincApplicationStarted');
+    console.log(payload);
+  }
+
   styles() {
     return { height: '300px', width: '300px' };
   }
@@ -101,13 +116,16 @@ class ZincWrapper extends Component {
           iFrameAttributes={this.attributes()}
           authToken={this.getAuthToken()}
           zincEnvironment='localhost'
-          timeZone='America/Los_Angeles'
-          locale='fr-FR'
+          timeZone='Asia/Tokyo'
+          locale='DE-de'
           // callback functions
+          onZincApplicationStarted={this.onZincApplicationStarted}
           onNewZincMessage={this.onNewZincMessage}
           onZincUnreadChange={this.onZincUnreadChange}
           onNewZincBroadcast={this.onNewZincBroadcast}
           onNewZincCall={this.onNewZincCall}
+          onZincApplicationReady={this.onZincApplicationReady}
+          onZincAuthenticationReady={this.onZincAuthenticationReady}
           onZincAuthenticationError={this.onZincAuthenticationError}
           // data sent to the Zinc application
           postData={this.state.postData}
